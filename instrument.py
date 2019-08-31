@@ -94,7 +94,7 @@ class _SCPI_functions():
   CMD_SOUR_CURR_PROT_STAT = ':SOUR{:d}:CURR:PROT:STAT {:3}'
   CMD_SOUR_VOLT_PROT = ':SOUR{:d}:VOLT:PROT {:d}'
   CMD_SOUR_VOLT_PROT_STAT = ':SOUR{:d}:VOLT:PROT:STAT {:3}'
-  CMD_MEAS_ALL = ':MEAS:ALL? {:3}'
+  CMD_MEAS_ALL = ':MEAS:ALL? CH{:d}'
 
   # Get identification info from instrument
   def getIdentInfo(self):
@@ -119,7 +119,7 @@ class _SCPI_functions():
     self.query(self.CMD_OUTP.format(c, self.VAR_OFF))
 
   # Set output voltage v and current i values on specified channel
-  def setOutChCurVolt(self, c, v, i):
+  def setOutChVoltCur(self, c, v, i):
     self._info('Setting channel {:d} to {:d}V, {:d}A'.format(c, v, i))
     self.query(self.CMD_APPL.format(c, v, i))
 
@@ -154,8 +154,8 @@ class _SCPI_functions():
     self.query(self.CMD_SOUR_VOLT_PROT_STAT.format(c, self.VAR_OFF))
 
   # Reads voltage and current output values on specified channel
-  def getOutVoltCur(self, c):
-    self._info('Reading volatag and current values on channel {:d}'.format(c))
+  def getOutChVoltCurPow(self, c):
+    self._info('Reading volatage, current and power values on channel {:d}'.format(c))
     res = self.query(self.CMD_MEAS_ALL.format(c))
     return res
 
