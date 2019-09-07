@@ -157,7 +157,7 @@ class _SCPI_functions():
   def getOutChVoltCurPow(self, c):
     self._info('Reading volatage, current and power values on channel {:d}'.format(c))
     res = self.query(self.CMD_MEAS_ALL.format(c))
-    return res
+    return float(res[0]), float(res[1]), float(res[2])
 
 class _PS_DP800(_Instrument, _SCPI_functions):
   desc = 'Rigol DP800 Series'

@@ -9,7 +9,8 @@ def getopts():
   parser.add_argument('-i', metavar='INSTRUMENT', help='type of power supply',\
     choices=charger.instrument.all.keys(), required=True)
   parser.add_argument('-d', metavar='ADDRESS', help='VISA address of power supply', required=True)
-  parser.add_argument('-b', metavar='BATTERY', help='type of battery to be charged', choices=['NiMH'], required=True)
+  parser.add_argument('-b', metavar='BATTERY', help='type of battery to be charged',\
+    choices=charger.battery.all.keys(), required=True)
   return parser.parse_args()
   
 def main():
