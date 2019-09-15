@@ -73,13 +73,6 @@ class _Instrument(object):
     r = self._instr.query(c)
     return r
 
-#rm = visa.ResourceManager('@py')
-#inst = rm.open_resource('TCPIP::192.168.1.2::INSTR')
-#print(inst.query("*IDN?"))
-#inst.query("APPL CH1,5,1")
-#inst.query("OUTP CH1,ON")
-#print(inst.query(":MEAS:ALL? CH1"))
-
 class _SCPI_functions():
   _cmd_set = 'SCPI'
 
