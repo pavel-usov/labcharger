@@ -81,11 +81,11 @@ class _SCPI_functions():
 
   CMD_IDN = '*IDN?'
   CMD_RST = '*RST'
-  CMD_APPL = 'APPL CH{:d},{:d},{:d}'
+  CMD_APPL = 'APPL CH{:d},{:.4g},{:.4g}'
   CMD_OUTP = 'OUTP CH{:d},{:3}'
-  CMD_SOUR_CURR_PROT = ':SOUR{:d}:CURR:PROT {:d}'
+  CMD_SOUR_CURR_PROT = ':SOUR{:d}:CURR:PROT {:.4g}'
   CMD_SOUR_CURR_PROT_STAT = ':SOUR{:d}:CURR:PROT:STAT {:3}'
-  CMD_SOUR_VOLT_PROT = ':SOUR{:d}:VOLT:PROT {:d}'
+  CMD_SOUR_VOLT_PROT = ':SOUR{:d}:VOLT:PROT {:.4g}'
   CMD_SOUR_VOLT_PROT_STAT = ':SOUR{:d}:VOLT:PROT:STAT {:3}'
   CMD_MEAS_ALL = ':MEAS:ALL? CH{:d}'
 
@@ -113,12 +113,12 @@ class _SCPI_functions():
 
   # Set output voltage v and current i values on specified channel
   def setOutChVoltCur(self, c, v, i):
-    self._info('Setting channel {:d} to {:d}V, {:d}A'.format(c, v, i))
+    self._info('Setting channel {:d} to {:.4g}V, {:.4g}A'.format(c, v, i))
     self.query(self.CMD_APPL.format(c, v, i))
 
   # Set overcurrent protection limit on specified channel
   def setOutChOverCurLimit(self, c, i):
-    self._info('Setting overcurrent protection limit on channel {:d} to {:d}A'.format(c, i))
+    self._info('Setting overcurrent protection limit on channel {:d} to {:.4g}A'.format(c, i))
     self.query(self.CMD_SOUR_CURR_PROT.format(c, i))
 
   # Enable overcurrent protection on specified channel
@@ -133,7 +133,7 @@ class _SCPI_functions():
 
   # Set overvoltage protection limit on specified channel
   def setOutChOverVoltLimit(self, c, v):
-    self._info('Setting overvoltage protection limit on channel {:d} to {:d}V'.format(c, v))
+    self._info('Setting overvoltage protection limit on channel {:d} to {:.4g}V'.format(c, v))
     self.query(self.CMD_SOUR_VOLT_PROT.format(c, v))
 
   # Enable overvoltage protection on specified channel

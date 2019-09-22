@@ -17,37 +17,14 @@ def newBattery(n):
   return b
 
 class _Battery:
-  chargeType = 'safe'
   cycleLen = 10
-
-  methods = []
-  types = []
-
-  _mtd_prefix = '_MTD_'
-  _typ_prefix = '_TYP_'
 
   def __init__(self, v=False):
     self.verbose = v
-    self._idxTypesMethods()
-    self._charge = self.charge
-    self.charge = self.charge_init
 
-  def _idxTypesMethods(self):
-    for m in dir(self):
-      if m.startswith(self._mtd_prefix):
-        self.methods.append(m[len(self._mtd_prefix):])
-      elif m.startswith(self._typ_prefix):
-        self.types.append(m[len(self._typ_prefix):])
-
-  def _getType(self, t):
-    if t in self.types:
-      return getattr(self, self._typ_prefix + t)
-    return None
-
-  def _getMethod(self, m):
-    if m in self.methods:
-      return getattr(self, self._mtd_prefix + m)
-    return None
+  def _info(self, m):
+    if self._verbose:
+      print m
 
   def setCapacity(self, c):
     self.capacity = c
@@ -55,26 +32,48 @@ class _Battery:
   def setVoltage(self, v):
     self.voltage = v
 
-  def charge_init(self):
-    self._stage = 0
-    self.charge = charge
+  def setVerbose(self, v):
+    self._verbose = v
+
+  def _MTD_dV(self):
+    print 'Method dV'
 
 class _BTR_NiMH(_Battery):
   desc = 'Nickel-metal hydride'
   
-  capacity = 2200
+  capacity = 2.2
   voltage = 1.2
   method = 'dV'
 
-  def charge():
+  check = True
+  keep = True
 
-  def _TYP_safe(self):
-    print 'Method safe'
+  _test_ratio = 0.1
+  _charge_ratio = 0.85
+  _keep_ratio = 0.05
+  _max_current_ratio = 1
+  _max_voltage = 8
 
-  def _TYP_fast(self):
-    print 'Type fast'
+  def init_charge(self, i, v):
+    if self.check == True:
+      self._info('Starting battery check')
+      self.charge = self.btr_check
+    else:
+      self._info('Starting battety qualification')
+      self.charge = self.btr_qualify
+    return ({
+      'max_voltage': self._max_voltage,
+      'max_current': self.capacity * self._max_current_ratio,
+      'voltage': self._max_voltage,
+      'current': self.capacity * self._test_ratio
+    })
 
-  def _MTD_dV(self):
-    print 'Method dV'
+  def btr_check(self, i, v):
+    print 'Battery check'
+
+  def btr_qualify(self, i, v):
+    print 'Battery qualify'
+
+  charge = init_charge
 
 _btrIndex()

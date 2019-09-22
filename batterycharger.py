@@ -16,5 +16,6 @@ def getopts():
 def main():
   args = getopts()
   ch = charger.Charger(args.i, args.d, args.b, args.verbose)
+  ch.charge()
 
 main()
