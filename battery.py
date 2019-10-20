@@ -21,6 +21,8 @@ class _Battery:
 
   def __init__(self, v=False):
     self.verbose = v
+    self.charge_step = self.charge_process()
+    next(self.charge_step)
 
   def _info(self, m):
     if self._verbose:
@@ -54,26 +56,31 @@ class _BTR_NiMH(_Battery):
   _max_current_ratio = 1
   _max_voltage = 8
 
-  def init_charge(self, i, v):
+  def charge_process(self):
     if self.check == True:
-      self._info('Starting battery check')
       self.charge = self.btr_check
-    else:
-      self._info('Starting battety qualification')
-      self.charge = self.btr_qualify
-    return ({
+      yield
+
+    self.charge = self.btr_qualify
+    yield
+
+  def init_charge(self):
+    self._info('Starting instrument initialisation')
+    return {
       'max_voltage': self._max_voltage,
       'max_current': self.capacity * self._max_current_ratio,
-      'voltage': self._max_voltage,
-      'current': self.capacity * self._test_ratio
-    })
+      'voltage_current': [self._max_voltage, self.capacity * self._test_ratio]
+    }
 
   def btr_check(self, i, v):
     print 'Battery check'
+    next(self.charge_step)
+    return {True}
 
   def btr_qualify(self, i, v):
     print 'Battery qualify'
+    return {}
 
-  charge = init_charge
+#  charge = init_charge
 
 _btrIndex()
