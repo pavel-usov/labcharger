@@ -17,12 +17,11 @@ def newBattery(n):
   return b
 
 class _Battery:
-  cycleLen = 10
+  cycleLen = 5
 
   def __init__(self, v=False):
-    self.verbose = v
+    self._verbose = v
     self.charge_step = self.charge_process()
-    next(self.charge_step)
 
   def _info(self, m):
     if self._verbose:
@@ -37,8 +36,13 @@ class _Battery:
   def setVerbose(self, v):
     self._verbose = v
 
-  def _MTD_dV(self):
-    print 'Method dV'
+  def waitCycle(self):
+    time.sleep(self.cycleLen)
+
+  def charge(self, i, v):
+    self._measured_current = i
+    self._measured_voltage = v
+    return next(self.charge_step)
 
 class _BTR_NiMH(_Battery):
   desc = 'Nickel-metal hydride'
@@ -55,14 +59,22 @@ class _BTR_NiMH(_Battery):
   _keep_ratio = 0.05
   _max_current_ratio = 1
   _max_voltage = 8
+  _test_voltage = 1.8
+  _precharge_voltage = 0.85
 
   def charge_process(self):
     if self.check == True:
-      self.charge = self.btr_check
-      yield
+      self._info('Checking battery')
+      if self._measured_voltage > self._test_voltage:
+        raise Exception('Battery has wrong type or not connected')
+    
+    self._info('Starting precharging')
+    while self._measured_voltage < self._precharge_voltage:
+      yield {True}
 
-    self.charge = self.btr_qualify
-    yield
+    self._info('Starting fast charging')
+    yield {'current': self.capacity * self._charge_ratio}
+    while 
 
   def init_charge(self):
     self._info('Starting instrument initialisation')
@@ -72,15 +84,6 @@ class _BTR_NiMH(_Battery):
       'voltage_current': [self._max_voltage, self.capacity * self._test_ratio]
     }
 
-  def btr_check(self, i, v):
-    print 'Battery check'
-    next(self.charge_step)
-    return {True}
-
-  def btr_qualify(self, i, v):
-    print 'Battery qualify'
-    return {}
-
-#  charge = init_charge
+  def _MTD_
 
 _btrIndex()

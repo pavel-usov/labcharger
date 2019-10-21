@@ -36,7 +36,8 @@ class Charger:
     try:
       self.initInstrParams()
       while res:
-        i, v, p = self._instr.getOutChVoltCurPow(self._instr_output_ch)
+        self._btr.waitCycle()
+        v, i, p = self._instr.getOutChVoltCurPow(self._instr_output_ch)
         res = self._btr.charge(i, v)
         self.setInstrParams(res)
     except Exception as e:
