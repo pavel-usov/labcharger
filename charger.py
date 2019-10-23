@@ -14,6 +14,8 @@ class Charger:
 
   def setInstrParams(self, par):
     for p in par:
+      if p == 'keep':
+        return
       if p == 'current':
         self._instr.setOutChCur(self._instr_output_ch, par[p])
       elif p == 'voltage':
