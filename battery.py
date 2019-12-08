@@ -48,7 +48,7 @@ class _Battery:
 
 class _MTD_dV:
   _mtd_dv_desc = 'most common and reliable method'
-  _mtd_dv_delta_voltage = 0.03
+  _mtd_dv_delta_voltage = 0.015
   _mtd_dv_max_measured_voltage = 0
 
   def _mtd_dV(self):
@@ -73,7 +73,7 @@ class _BTR_NiMH(_Battery, _MTD_dV):
   _charge_ratio = 0.85
   _keep_ratio = 0.05
   _max_current_ratio = 1
-  _max_voltage = 8
+  _max_voltage = 5
   _test_voltage = 1.8
   _precharge_voltage = 0.85
   _preparing_cycles = 24
@@ -105,6 +105,7 @@ class _BTR_NiMH(_Battery, _MTD_dV):
     while not self.charge_finished():
       yield {'keep'}
 
+    self._info('Starting trickle charging')
     if self.keep == True:
       yield {'current': self.capacity * self._keep_ratio}
       while self._measured_voltage < self._test_voltage:
