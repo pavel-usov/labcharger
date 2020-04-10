@@ -26,11 +26,11 @@ Connect your computer with power supply, connect a battery with output channel 1
 
 Labcharger! supports following options:
 
--h Shows short help and hints.
--v Verbose mode to show debug messages and battery feedback info during charging.
--i Power supply you are using. Labcharger! was tested only with Rigol DP832A, but adding another instruments is pretty easy.
--d Address of power supply with VISA notation.
--b Battery type. NiMH is currently the only one implemented battery type.
+-h Shows short help and hints.  
+-v Verbose mode to show debug messages and battery feedback info during charging.  
+-i Power supply you are using. Labcharger! was tested only with Rigol DP832A, but adding another instruments is pretty easy.  
+-d Address of power supply with VISA notation.  
+-b Battery type. NiMH is currently the only one implemented battery type.  
 
 Example
 
